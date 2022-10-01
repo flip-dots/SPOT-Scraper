@@ -243,14 +243,14 @@ def convert_deadlines_to_intermediary(local_deadlines, length, mode):
 
 
 # This puts our intermediary events into ical events
-def intermediary_events_to_ical(intermediary_events, local_calendar):
-    for intermediary_event in intermediary_events:
-        event = Event()
-        event.add('summary', intermediary_event.name)
-        event.add('dtstart', intermediary_event.begin)
-        event.add('dtend', intermediary_event.end)
-        event.add('dtend', intermediary_event.end)
-        local_calendar.add_component(event)
+def intermediary_events_to_ical(local_intermediary_events, local_calendar):
+    for local_intermediary_event in local_intermediary_events:
+        local_event = Event()
+        local_event.add('summary', local_intermediary_event.name)
+        local_event.add('dtstart', local_intermediary_event.begin)
+        local_event.add('dtend', local_intermediary_event.end)
+        local_event.add('dtend', local_intermediary_event.end)
+        local_calendar.add_component(local_event)
 
 
 # We try to log in via cookies first to reduce API calls
