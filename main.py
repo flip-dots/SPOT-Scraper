@@ -253,8 +253,8 @@ try:
     print("Attempting to load cookies")
     requests_session = load_cookies("Cookies.data")
     html_spot = get_spot_html(requests_session)
-    print("Login using cookies successful")
     deadlines = parse_deadlines(html_spot)
+    print("Login using cookies successful")
 # If that fails we log in using the user/pass stored in config.py
 except Exception as e:
     print("Login using cookies unsuccessful, trying using user/pass")
