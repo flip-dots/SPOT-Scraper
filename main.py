@@ -67,7 +67,7 @@ debug = False
 def login(local_login_url, local_username, local_password):
     # Getting the login HTML
     local_requests_session = requests.Session()
-    response_html_login = local_requests_session.get(login_url)
+    response_html_login = local_requests_session.get(local_login_url)
     html_login_page = str(response_html_login.content)
     if (debug):
         print("Login page HTML response: " + html_login_page)
@@ -137,7 +137,7 @@ def get_spot_html(local_requests_session):
         raise Exception("Did not get response code 200, code: " + str(response_html_spot.status_code))
     if ("login.manchester.ac.uk" in response_html_spot.url):
         raise Exception("Not authorized, was redirected to login page")
-        
+
     local_html_spot = response_html_spot.content
     if (debug):
         print("Spot page HTML response: " + str(local_html_spot))
