@@ -283,7 +283,7 @@ for deadline in deadlines:
 intermediary_events = convert_deadlines_to_intermediary(deadlines, 60, "safe")
 calendar = Calendar()
 intermediary_events_to_ical(intermediary_events, calendar)
-f = open('example.ics', 'wb')
+f = open('deadlines.ics', 'wb')
 f.write(calendar.to_ical())
 f.close()
 print("Done!!!")
