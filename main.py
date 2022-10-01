@@ -229,7 +229,8 @@ def convert_deadlines_to_intermediary(local_deadlines, length, mode):
         # If I ever get around to it this will be the intelligent auto mode
         else:
             n = 1
-
+        # It's done like this, so you could change it to put deadlines there for like 10 years in case SPOT ever adds
+        # deadlines that span 2+ years, I know it's not ideal but good enough for me
         for i in range(0, n):
             tz = pytz.timezone("Europe/London")
             begin = tz.localize(datetime.datetime(year + i, month, day, hour, min))
