@@ -279,7 +279,7 @@ for deadline in deadlines:
 
 # 60 is the length in min of the deadline, so a deadline at 18:00 will show as an event from 18:00 to 19:00
 # safe means it will duplicate the deadlines this year and next year, since the uni doesn't specify the year in the due date
-# anything other than "safe", and it will assume all deadlines are this year, so watch out!
+# anything other than "safe", and it will only do this year, so watch out!
 intermediary_events = convert_deadlines_to_intermediary(deadlines, 60, "safe")
 calendar = Calendar()
 intermediary_events_to_ical(intermediary_events, calendar)
