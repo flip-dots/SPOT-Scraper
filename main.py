@@ -257,6 +257,7 @@ try:
     print("Login using cookies successful")
 # If that fails we log in using the user/pass stored in config.py
 except Exception as e:
+    print(str(e))
     print("Login using cookies unsuccessful, trying using user/pass")
     requests_session = login(login_url, config.username, config.password)
     print("Login using user/pass successful, saving to Cookies.data")
