@@ -95,13 +95,13 @@ def login(local_login_url, local_username, local_password):
     # Checking that we have the response we wanted
     # This throws an error if we don't get a 200 code
     if (response_api_login.status_code != 200):
-        raise Exception("Error! did not get response code 200, code: " + str(response_html_login.status_code))
+        raise Exception("Did not get response code 200, code: " + str(response_html_login.status_code))
     # This throws an error is the password is incorrect
-    if (str(response_api_login.content) in "The credentials that you provided have not been accepted"):
-        raise Exception("Error! user/pass not accepted by login system, check user/pass")
+    if ("The credentials that you provided have not been accepted" in str(response_api_login.content)):
+        raise Exception("User/pass not accepted by login system, check user/pass")
     # This throws an error if you haven't been redirected, and the site doesn't say login successful
-    if (response_api_login.url in "login.manchester.ac.uk") and not (str(response_api_login.content) in "Login Successful"):
-        raise Exception("Error! login was unsuccessful for an unknown reason")
+    if ("login.manchester.ac.uk" in response_api_login.url) and not ("Login Successful" in str(response_api_login.content)):
+        raise Exception("Login was unsuccessful for an unknown reason")
 
     return local_requests_session
 
@@ -131,9 +131,13 @@ def load_cookies(path):
 def get_spot_html(local_requests_session):
     spot_url = "https://studentnet.cs.manchester.ac.uk/me/spotv2/spotv2.php"
     response_html_spot = local_requests_session.get(spot_url)
+
     # If we don't get 200 it means we probably aren't logged in, and we have been redirected to the login page
     if (response_html_spot.status_code != 200):
-        raise Exception("Error! did not get response code 200, code: " + str(response_html_spot.status_code))
+        raise Exception("Did not get response code 200, code: " + str(response_html_spot.status_code))
+    if ("login.manchester.ac.uk" in response_html_spot.url):
+        raise Exception("Not authorized, was redirected to login page")
+        
     local_html_spot = response_html_spot.content
     if (debug):
         print("Spot page HTML response: " + str(local_html_spot))
@@ -257,12 +261,12 @@ try:
     print("Login using cookies successful")
 # If that fails we log in using the user/pass stored in config.py
 except Exception as e:
-    print(str(e))
+    print("Error! " + str(e))
     print("Login using cookies unsuccessful, trying using user/pass")
     requests_session = login(login_url, config.username, config.password)
+    html_spot = get_spot_html(requests_session)
     print("Login using user/pass successful, saving to Cookies.data")
     save_cookies(requests_session, "Cookies.data")
-    html_spot = get_spot_html(requests_session)
     deadlines = parse_deadlines(html_spot)
 
 # This shows you what it found on SPOT
