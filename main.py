@@ -207,7 +207,7 @@ def month_to_num(str_month):
 
 # This is where the spaghetti code begins
 def convert_deadlines_to_intermediary(local_deadlines, length, mode):
-    intermediary_events = []
+    local_intermediary_events = []
     year = datetime.date.today().year
     if (debug):
         print("Current year: " + str(year))
@@ -235,10 +235,10 @@ def convert_deadlines_to_intermediary(local_deadlines, length, mode):
             begin = tz.localize(datetime.datetime(year + i, month, day, hour, min))
             # This adds the specified length to the event, I don't think icals support events of 0 length, but I have not tried
             end = tz.localize(datetime.datetime(year + i, month, day, hour, min)) + timedelta(minutes=length)
-            intermediary_event = IntermediaryEvent(name, begin, end)
-            intermediary_events.append(intermediary_event)
+            local_intermediary_event = IntermediaryEvent(name, begin, end)
+            local_intermediary_events.append(local_intermediary_event)
 
-    return intermediary_events
+    return local_intermediary_events
 
 
 # This puts our intermediary events into ical events
@@ -279,9 +279,9 @@ for deadline in deadlines:
 # 60 is the length in min of the deadline, so a deadline at 18:00 will show as an event from 18:00 to 19:00
 # safe means it will duplicate the deadlines this year and next year, since the uni doesn't specify the year in the due date
 # anything other than "safe", and it will only do this year, so watch out!
-inter_events = convert_deadlines_to_intermediary(deadlines, 60, "safe")
+intermediary_events = convert_deadlines_to_intermediary(deadlines, 60, "safe")
 calendar = Calendar()
-intermediary_events_to_ical(inter_events, calendar)
+intermediary_events_to_ical(intermediary_events, calendar)
 f = open('example.ics', 'wb')
 f.write(calendar.to_ical())
 f.close()
