@@ -154,7 +154,7 @@ def parse_deadlines(local_html_spot):
 
     # This gets us all the entries in that table
     soup_spot_deadlines = soup_spot_deadlines_table.findAll("tr", style="cursor: pointer;")
-    deadlines = []
+    local_deadlines = []
 
     # This turns all that nasty HTML into a nice python class
     for child in soup_spot_deadlines:
@@ -171,9 +171,9 @@ def parse_deadlines(local_html_spot):
             print("Due date: " + str(due_date))
         # Not a huge fan of having to name everything in functions local_..., I miss Java and its better scopes
         local_deadline = Deadline(course_id, assessment_name, due_date)
-        deadlines.append(local_deadline)
+        local_deadlines.append(local_deadline)
 
-    return deadlines
+    return local_deadlines
 
 
 # Boring but necessary switch statement, it was not fun to type out...
